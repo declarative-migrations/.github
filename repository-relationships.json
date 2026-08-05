@@ -1,10 +1,170 @@
 {
+  "$schema": "./repository-relationships.schema.json",
+  "audience": "public",
+  "generated": {
+    "complete_for_visibility": "public",
+    "generated_at": "2026-08-05T21:07:32Z",
+    "generator_version": "2026-08-04.1",
+    "inventory_digest": "sha256:8139e59c36b21bed1a2b337cb7ae0211e3166581381ac4f4aa9b20594fe24db7",
+    "managed_by": "ore-repository-relationship-rollout",
+    "omitted_repository_count": 1,
+    "private_repositories_omitted": true,
+    "source": "GitHub GraphQL repository inventory plus reviewed manual declarations"
+  },
+  "owner": {
+    "account_type": "organization",
+    "dotgithub_repository": "declarative-migrations/.github",
+    "github_id": "304551819",
+    "linear_project": {
+      "id": "78d51c47-c6ac-472c-ba3e-525461971027",
+      "name": "github.com/declarative-migrations",
+      "team_id": "eb8ab169-5afe-4b6f-9cab-3f2aa3e887dc",
+      "url": "https://linear.app/denman/project/githubcomdeclarative-migrations-ffa3841a100d",
+      "workspace": "denman"
+    },
+    "login": "declarative-migrations",
+    "mapping_id": "context:declarative-migrations"
+  },
+  "private_registry": {
+    "contains_non_public_inventory": true,
+    "digest": "sha256:48434c3a5db707365e9d2b95ed4eef69b68e61dfd0b5cf69d80b699da7764ecd",
+    "path": "owners/declarative-migrations.json",
+    "repository": "ORESoftware/project-registry"
+  },
+  "relationships": [
+    {
+      "confidence": 1.0,
+      "evidence": [
+        {
+          "kind": "github-owner-membership",
+          "source": "GitHub GraphQL repository inventory"
+        }
+      ],
+      "from": "declarative-migrations/.github",
+      "id": "sha256:49ba19fd1954e6acbaec1c63b016c4af8d1be0991f5cf77a5e99cf1724b33721",
+      "notes": "Organization .github policy and community-health defaults govern this sibling repository.",
+      "required": true,
+      "scope": "organization",
+      "status": "declared",
+      "to": "declarative-migrations/declarative-migrations.github.io",
+      "type": "governs"
+    },
+    {
+      "confidence": 1.0,
+      "evidence": [
+        {
+          "kind": "github-owner-membership",
+          "source": "GitHub GraphQL repository inventory"
+        }
+      ],
+      "from": "declarative-migrations/.github",
+      "id": "sha256:79bf28836e57ed66ad45d983d61a0beb30779c7a99a0f3675e98109f23fe5bbd",
+      "notes": "Organization .github policy and community-health defaults govern this sibling repository.",
+      "required": true,
+      "scope": "organization",
+      "status": "declared",
+      "to": "declarative-migrations/declarative-postgres-migrate.rs",
+      "type": "governs"
+    },
+    {
+      "confidence": 1.0,
+      "evidence": [
+        {
+          "kind": "github-owner-membership",
+          "source": "GitHub GraphQL repository inventory"
+        }
+      ],
+      "from": "declarative-migrations/.github",
+      "id": "sha256:5901e404a228f9ef06904ab020bc2800799de84d58081656267550c3d8f96541",
+      "notes": "Organization .github policy and community-health defaults govern this sibling repository.",
+      "required": true,
+      "scope": "organization",
+      "status": "declared",
+      "to": "declarative-migrations/homebrew-tap",
+      "type": "governs"
+    },
+    {
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "kind": "repository-name",
+          "value": "declarative-migrations.github.io"
+        }
+      ],
+      "from": "declarative-migrations/declarative-migrations.github.io",
+      "id": "sha256:ea90e050ea781e1b5155e280f961ed8b3f5c7d0462497f4d85d77a54e132137c",
+      "notes": "The conventional *.github.io repository documents the organization profile.",
+      "required": false,
+      "scope": "organization",
+      "status": "inferred",
+      "to": "declarative-migrations/.github",
+      "type": "documents"
+    }
+  ],
+  "repositories": [
+    {
+      "archived": false,
+      "default_branch": "main",
+      "fork": false,
+      "full_name": "declarative-migrations/.github",
+      "github_id": "1324047509",
+      "name": ".github",
+      "owner": "declarative-migrations",
+      "roles": [
+        "community-health",
+        "governance",
+        "relationship-registry"
+      ],
+      "source": "github-graphql-api",
+      "url": "https://github.com/declarative-migrations/.github",
+      "visibility": "public"
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "fork": false,
+      "full_name": "declarative-migrations/declarative-migrations.github.io",
+      "github_id": "1299506330",
+      "name": "declarative-migrations.github.io",
+      "owner": "declarative-migrations",
+      "roles": [
+        "documentation-site"
+      ],
+      "source": "github-graphql-api",
+      "url": "https://github.com/declarative-migrations/declarative-migrations.github.io",
+      "visibility": "public"
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "fork": false,
+      "full_name": "declarative-migrations/declarative-postgres-migrate.rs",
+      "github_id": "1299382683",
+      "name": "declarative-postgres-migrate.rs",
+      "owner": "declarative-migrations",
+      "roles": [
+        "repository"
+      ],
+      "source": "github-graphql-api",
+      "url": "https://github.com/declarative-migrations/declarative-postgres-migrate.rs",
+      "visibility": "public"
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "fork": false,
+      "full_name": "declarative-migrations/homebrew-tap",
+      "github_id": "1299510146",
+      "name": "homebrew-tap",
+      "owner": "declarative-migrations",
+      "roles": [
+        "repository"
+      ],
+      "source": "github-graphql-api",
+      "url": "https://github.com/declarative-migrations/homebrew-tap",
+      "visibility": "public"
+    }
+  ],
   "schema_version": 1,
-  "organization": "declarative-migrations",
-  "generated_at": null,
-  "repositories": [],
-  "notes": [
-    "Populate from live GitHub inventory; do not infer unverified dependencies.",
-    "Repository-local manifests remain authoritative for exact dependency versions."
-  ]
+  "unresolved_hints": []
 }
