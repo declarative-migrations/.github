@@ -29,7 +29,7 @@
     "contains_non_public_inventory": true,
     "digest": "sha256:48434c3a5db707365e9d2b95ed4eef69b68e61dfd0b5cf69d80b699da7764ecd",
     "path": "owners/declarative-migrations.json",
-    "repository": "ORESoftware/project-registry"
+    "repository": "approved-private-registry"
   },
   "relationships": [
     {
