@@ -36,6 +36,15 @@ Describe the behavior and intent, not only the files changed.
 - Migration or compatibility considerations:
 - Rollback or recovery approach:
 
+## Formal and ownership assurance, when applicable
+
+- Safety properties and invariants:
+- Types, ownership, or borrow relationships that enforce them:
+- Negative compile-time contracts:
+- Model bounds, actors, and omitted system behavior:
+- Exact product head and `declarative-migrations-test` certification PRs:
+- Remaining manual or external validation not performed:
+
 ## Validation
 
 List exact commands, environments, and results. Include unit, integration, contract, build, and end-to-end evidence as applicable.
@@ -54,6 +63,8 @@ List exact commands, environments, and results. Include unit, integration, contr
 - [ ] Documentation and generated artifacts updated from authoritative sources
 - [ ] External Actions pinned to full commit SHAs
 - [ ] Explicit least-privilege workflow permissions and timeouts
+- [ ] Stateful Rust changes follow `policies/RUST_FORMAL_ASSURANCE.md`, or the PR explains why it is not applicable
+- [ ] Exact-head `*-test` evidence was repinned after the final product-head change
 - [ ] No credentials, private data, or sensitive logs included
 - [ ] Authoritative remote branch/PR/check evidence verified
 <!-- ore-org-baseline:end -->
