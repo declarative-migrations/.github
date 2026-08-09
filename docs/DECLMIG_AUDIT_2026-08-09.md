@@ -9,10 +9,11 @@ Production organization:
 - `declarative-migrations.github.io`
 - `homebrew-tap`
 - private `declarative-migrations-mcp-server.rs`
+- newly provisioned `declmig-e2e`
 
 Paired test organization:
 
-- governance repository plus the public specialized migration, drift, failure, lock, compatibility, installation, security, upgrade, fuzz, and recovery repositories represented by `declarative-migrations-test/.github/e2e/declmig-e2e.portfolio.json`.
+- governance repository, newly provisioned aggregate `declmig-e2e`, and the public specialized migration, drift, failure, lock, compatibility, installation, security, upgrade, fuzz, and recovery repositories represented by `declarative-migrations-test/.github/e2e/declmig-e2e.portfolio.json`.
 
 ## Positive findings
 
@@ -25,9 +26,14 @@ Paired test organization:
 
 ## Findings and actions
 
-### 1. Aggregate promotion was missing
+### 1. Aggregate promotion repositories were missing and are now provisioned
 
-Neither organization had a `declmig-e2e` repository. This branch adds:
+Both requested public repositories were created through a narrowly scoped one-time workflow in the trusted `zed-pkg-test/zed-pkg-e2e` factory and initialized through draft pull requests:
+
+- `declarative-migrations-test/declmig-e2e#1`: candidate/destructive aggregate.
+- `declarative-migrations/declmig-e2e#1`: stable promotion aggregate.
+
+This branch supplies their reviewed source:
 
 - a machine-readable production/test promotion contract;
 - a validator and required workflow;
@@ -36,7 +42,7 @@ Neither organization had a `declmig-e2e` repository. This branch adds:
 - an exact source pin and PostgreSQL diff → verify → apply → empty-post-diff lane;
 - SHA-256 evidence generation.
 
-Repository provisioning is tracked in `.github#11`, `declarative-migrations-test/.github#13`, and the factory change in `zed-pkg-test/zed-pkg-e2e#163`.
+The initial live run exposed a Rust formatter-version mismatch before database work. The harness now pins Rust 1.97.1, follows the source repository's lint/test command shape, pins PostgreSQL 17 by image digest, and excludes generated Python bytecode. Permanent deterministic factory-manifest ownership remains tracked in `zed-pkg-test/zed-pkg-e2e#163`.
 
 ### 2. Test fleet drift reporting was stale
 
