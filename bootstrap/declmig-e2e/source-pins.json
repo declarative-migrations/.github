@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "policy": {
+    "allow_mutable_refs": false,
+    "allow_implicit_latest": false,
+    "source_commit_length": 40
+  },
+  "sources": [
+    {
+      "name": "dpm",
+      "repository": "declarative-migrations/declarative-postgres-migrate.rs",
+      "commit": "b829384df970e3b9415b566ef9d87511bdc163c7",
+      "required": true,
+      "role": "migration-engine-under-certification"
+    }
+  ],
+  "optional_sources": [
+    {
+      "name": "mcp-server",
+      "repository": "declarative-migrations/declarative-migrations-mcp-server.rs",
+      "commit": null,
+      "required": false,
+      "reason": "Protected MCP parity must be supplied as an exact SHA."
+    }
+  ]
+}

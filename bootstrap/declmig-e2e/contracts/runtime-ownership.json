@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "default_policy": "api-owned-product-writes",
+  "components": {
+    "lib_core": {
+      "owns": ["persistence-json-schema", "desired-sql", "migration-inputs", "generated-orm-adapters", "named-database-operations", "conformance-fixtures", "zed-package-manifest-and-digest"],
+      "runtime_database_principal": null
+    },
+    "migrator": {
+      "database_identity": "migrator_ddl",
+      "may": ["ddl", "migration-ledger-write", "catalog-introspection"],
+      "must_not": ["serve-user-traffic"],
+      "lifecycle": "one-shot-and-serialized"
+    },
+    "api_server": {
+      "database_identity": "api_product_rw",
+      "may": ["named-product-reads", "named-product-writes"],
+      "must_not": ["ddl"],
+      "authorization": "resource-api-owned"
+    },
+    "web_server": {
+      "database_identities": ["web_product_ro", "web_state_rw"],
+      "may": ["bounded-named-product-reads", "isolated-web-state-writes"],
+      "must_not": ["product-domain-writes", "ddl"],
+      "write_path": "call-api-server"
+    },
+    "shared_auth": {
+      "owns": ["authentication", "sessions", "token-issuance", "token-revocation"],
+      "must_not": ["authorize-resource-specific-business-mutations"]
+    }
+  },
+  "exception_policy": {
+    "direct_web_product_write": "forbidden-by-default",
+    "requirements": ["time-bounded-ADR", "named-operation", "separate-principal", "audit-evidence", "expiry-date"]
+  },
+  "package_policy": {
+    "transport": "zed-pkg",
+    "pinning": "exact-version-and-digest",
+    "api_and_web_share_version": true,
+    "capability_surfaces_differ": true
+  }
+}

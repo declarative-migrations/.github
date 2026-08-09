@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "status": "bootstrap-ready-not-yet-created",
+  "target_repository": "declarative-migrations/declmig-e2e",
+  "source_commit_under_certification": "b829384df970e3b9415b566ef9d87511bdc163c7",
+  "promotion_requirements": [
+    "create repository with protected main and required status checks",
+    "copy this tree without changing source-pins.json",
+    "run production PostgreSQL 16/17 and CockroachDB 25.2.4 certification",
+    "ingest matching independent test-org evidence before release"
+  ]
+}

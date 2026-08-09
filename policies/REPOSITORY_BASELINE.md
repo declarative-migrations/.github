@@ -11,6 +11,7 @@ Each active repository should therefore maintain:
 - full commit-SHA pins for external Actions;
 - checkout with `persist-credentials: false` unless a reviewed write step proves it is necessary;
 - tests appropriate to the repository's language and risk;
+- type-enforced invariants, executable state models, and immutable `declarative-migrations-test` certification for stateful Rust systems, following [Rust formal and ownership assurance](RUST_FORMAL_ASSURANCE.md);
 - branch/ruleset controls that prevent force pushes and branch deletion;
 - vulnerability alerts and automated security fixes where supported;
 - a linked GitHub issue or pull request for material Linear architecture or policy changes.
