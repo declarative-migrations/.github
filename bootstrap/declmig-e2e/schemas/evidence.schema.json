@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/declarative-migrations/declmig-e2e/schemas/evidence.schema.json",
+  "title": "Declarative migrations E2E evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "repository", "harness_commit", "source_repository", "source_commit", "scenario", "engine", "result", "started_at", "finished_at", "artifacts"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "repository": {"type": "string", "pattern": "^[^/]+/[^/]+$"},
+    "harness_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "source_repository": {"const": "declarative-migrations/declarative-postgres-migrate.rs"},
+    "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "scenario": {"type": "string", "minLength": 1},
+    "engine": {"enum": ["postgres-16", "postgres-17", "cockroach-25.2.4", "contract-only"]},
+    "result": {"enum": ["passed", "failed", "blocked"]},
+    "classification": {"enum": ["product-regression", "harness-regression", "blocked-dependency", "none"]},
+    "started_at": {"type": "string", "format": "date-time"},
+    "finished_at": {"type": "string", "format": "date-time"},
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    }
+  }
+}

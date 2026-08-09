@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "source_commit": "b829384df970e3b9415b566ef9d87511bdc163c7",
+  "required_gates": [
+    "contract-ci",
+    "postgres-16",
+    "postgres-17",
+    "cockroach-25.2.4",
+    "least-privilege",
+    "packaging-install",
+    "test-org-exact-head-evidence"
+  ],
+  "optional_protected_gates": ["private-mcp-parity", "homebrew-install"],
+  "promotion": {
+    "same_source_sha_required": true,
+    "all_required_results": "passed",
+    "blocked_is_pass": false,
+    "evidence_digest_required": true
+  }
+}
