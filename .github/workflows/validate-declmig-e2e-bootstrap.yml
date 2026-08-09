@@ -1,0 +1,44 @@
+name: Validate declmig-e2e bootstrap
+
+on:
+  pull_request:
+    paths:
+      - 'architecture/DECLMIG_E2E.md'
+      - 'bootstrap/declmig-e2e/**'
+      - '.github/workflows/validate-declmig-e2e-bootstrap.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'architecture/DECLMIG_E2E.md'
+      - 'bootstrap/declmig-e2e/**'
+      - '.github/workflows/validate-declmig-e2e-bootstrap.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Validate exact pins and JSON contracts
+        working-directory: bootstrap/declmig-e2e
+        run: |
+          set -euo pipefail
+          python3 scripts/verify-pins.py
+          python3 -m json.tool bootstrap-manifest.json >/dev/null
+          python3 -m json.tool contracts/runtime-ownership.json >/dev/null
+          python3 -m json.tool contracts/release-gate.json >/dev/null
+          python3 -m json.tool schemas/evidence.schema.json >/dev/null
+      - name: Check shell and credential hygiene
+        run: |
+          set -euo pipefail
+          find bootstrap/declmig-e2e/scripts -type f -name '*.sh' -print0 | xargs -0 -r -n1 bash -n
+          ! grep -RInE 'ghp_[A-Za-z0-9]{20,}|lin_api_[A-Za-z0-9]{20,}|BEGIN (RSA|OPENSSH|EC) PRIVATE KEY' bootstrap/declmig-e2e
