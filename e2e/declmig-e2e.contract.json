@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "contract_id": "declmig-e2e",
+  "audited_at": "2026-08-09",
+  "organizations": {
+    "production": "declarative-migrations",
+    "test": "declarative-migrations-test"
+  },
+  "aggregate_repositories": [
+    {
+      "full_name": "declarative-migrations/declmig-e2e",
+      "role": "stable-promotion-orchestrator",
+      "required_visibility": "public",
+      "accepts_destructive_targets": false
+    },
+    {
+      "full_name": "declarative-migrations-test/declmig-e2e",
+      "role": "candidate-and-destructive-fleet-orchestrator",
+      "required_visibility": "public",
+      "accepts_destructive_targets": true
+    }
+  ],
+  "source_repositories": [
+    {
+      "full_name": "declarative-migrations/declarative-postgres-migrate.rs",
+      "artifact": "dpm",
+      "ref_policy": "full-commit-sha",
+      "required_checks": [
+        "rust-format",
+        "rust-clippy-deny-warnings",
+        "rust-tests",
+        "migration-contract",
+        "workflow-policy"
+      ]
+    }
+  ],
+  "service_data_boundary": {
+    "lib_core": {
+      "authority": "sole-human-authored-persistence-source",
+      "required_profiles": [
+        "contracts",
+        "read",
+        "write",
+        "migrator"
+      ],
+      "required_inputs": [
+        "persistence-json-schema",
+        "desired-sql",
+        "declarative-migration-inputs",
+        "generator-configuration",
+        "named-database-operations"
+      ],
+      "required_adapters": [
+        "rust-seaorm",
+        "typescript-drizzle"
+      ],
+      "conditional_adapters": [
+        "typescript-prisma",
+        "typescript-typeorm",
+        "go-ent",
+        "dart-drift"
+      ],
+      "distribution": "immutable-zed-package"
+    },
+    "api_server": {
+      "product_domain_access": [
+        "read",
+        "write"
+      ],
+      "database_role_suffix": "__api_rw",
+      "ddl": false,
+      "request_serving_product_writer": true
+    },
+    "web_server": {
+      "product_domain_access": [
+        "approved-bounded-read"
+      ],
+      "database_role_suffix": "__web_ro",
+      "product_writes_route": "generated-api-client",
+      "isolated_state_role_suffix": "__web_state_rw",
+      "ddl": false,
+      "request_serving_product_writer": false
+    },
+    "migrator": {
+      "database_role_suffix": "__migrator",
+      "execution": "serialized-one-shot-job",
+      "tooling": "declarative-postgres-migrate.rs",
+      "requires_empty_post_apply_diff": true
+    },
+    "shared_auth": {
+      "owns": [
+        "identity-assurance",
+        "sessions",
+        "token-exchange",
+        "revocation"
+      ],
+      "product_domain_database_access": false
+    }
+  },
+  "promotion_order": [
+    "candidate-source-pinned-by-full-sha",
+    "test-org-aggregate-contract",
+    "specialized-test-org-scenarios",
+    "immutable-evidence-bundle",
+    "production-aggregate-promotion",
+    "release"
+  ],
+  "required_scenario_classes": [
+    "forward-and-rollback",
+    "idempotent-replay",
+    "schema-drift-detection",
+    "data-preservation",
+    "failure-atomicity",
+    "concurrent-migrator-locking",
+    "cross-engine-compatibility",
+    "upgrade-compatibility",
+    "chaos-recovery",
+    "cli-installation",
+    "cli-mcp-contract",
+    "security-boundary",
+    "lib-core-schema-and-generated-adapter-parity",
+    "api-write-web-read-only-permissions",
+    "shared-auth-to-product-api-handoff"
+  ],
+  "required_test_repositories": [
+    "declarative-migrations-test/postgres-forward-rollback",
+    "declarative-migrations-test/cockroach-forward-rollback",
+    "declarative-migrations-test/idempotent-replay-e2e",
+    "declarative-migrations-test/schema-drift-detection",
+    "declarative-migrations-test/data-preservation-e2e",
+    "declarative-migrations-test/failure-injection-atomicity",
+    "declarative-migrations-test/concurrent-migrator-lock",
+    "declarative-migrations-test/cross-engine-compatibility",
+    "declarative-migrations-test/upgrade-compatibility-tests",
+    "declarative-migrations-test/chaos-recovery-tests",
+    "declarative-migrations-test/cli-install-e2e",
+    "declarative-migrations-test/homebrew-install-e2e",
+    "declarative-migrations-test/cli-mcp-contract",
+    "declarative-migrations-test/contract-conformance-tests",
+    "declarative-migrations-test/security-boundary-tests",
+    "declarative-migrations-test/fuzz-property-e2e"
+  ],
+  "evidence": {
+    "schema_version": 1,
+    "required_fields": [
+      "source_repository",
+      "source_commit",
+      "workflow_repository",
+      "workflow_commit",
+      "run_id",
+      "scenario",
+      "engine",
+      "result",
+      "started_at",
+      "completed_at",
+      "artifact_sha256"
+    ],
+    "source_commit_pattern": "^[0-9a-f]{40}$",
+    "artifact_digest_pattern": "^[0-9a-f]{64}$",
+    "mutable_branch_evidence_allowed": false
+  },
+  "supply_chain": {
+    "github_actions": "full-commit-sha-only",
+    "checkout_persist_credentials": false,
+    "production_images": "digest-only",
+    "remote_install_scripts": "forbidden",
+    "latest_version_selectors": "forbidden",
+    "archives_require_checksum": true,
+    "secrets_in_pull_request_workflows": false
+  }
+}

@@ -1,0 +1,52 @@
+name: Declarative migrations E2E contract
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/declmig-e2e-contract.yml'
+      - 'e2e/declmig-e2e.contract.json'
+      - 'scripts/validate_declmig_contract.py'
+      - 'REPOSITORY_BOUNDARIES.md'
+      - 'blueprints/declmig-e2e/**'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/declmig-e2e-contract.yml'
+      - 'e2e/declmig-e2e.contract.json'
+      - 'scripts/validate_declmig_contract.py'
+      - 'REPOSITORY_BOUNDARIES.md'
+      - 'blueprints/declmig-e2e/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: declmig-e2e-contract-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out policy source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          show-progress: false
+
+      - name: Compile validator
+        run: python3 -m py_compile scripts/validate_declmig_contract.py
+
+      - name: Validate aggregate promotion and service boundaries
+        run: python3 scripts/validate_declmig_contract.py
+
+      - name: Reject committed secret material in contract surfaces
+        shell: bash
+        run: |
+          set -euo pipefail
+          ! grep -RInE \
+            'gh[pousr]_[A-Za-z0-9]{20,}|lin_api_[A-Za-z0-9]{20,}|cfat_[A-Za-z0-9_-]{20,}|BEGIN (RSA|OPENSSH|EC) PRIVATE KEY' \
+            REPOSITORY_BOUNDARIES.md e2e scripts blueprints \
+            --exclude-dir=.git
