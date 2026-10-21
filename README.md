@@ -1,5 +1,7 @@
 # declarative-migrations organization defaults
 
+**Policy:** [Rust for scripts; documented Python app exceptions only](CONTRIBUTING.md#rust-first-scripts-and-automation).
+
 This public `.github` repository contains organization-wide community health files, contributor guidance, shared agent policy, and an explicit repository-relationship contract.
 
 Repository-local policy wins when it is stricter or more specific. Existing project history must be preserved during consolidation and conflict resolution.
