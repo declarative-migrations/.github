@@ -1,0 +1,61 @@
+name: Migration rollout review
+description: Request review of a plan before any database migration is executed
+title: "migration: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This issue records review evidence. It never authorizes an automated apply.
+        Use sanitized metadata only; do not paste DSNs, credentials, production SQL containing data, or customer information.
+  - type: input
+    id: source_commit
+    attributes:
+      label: Exact migration source commit
+      description: Full immutable commit SHA of the migration engine or plan source
+      placeholder: 40-character Git SHA
+    validations:
+      required: true
+  - type: textarea
+    id: plan
+    attributes:
+      label: Plan and digest
+      description: Provide the plan SHA-256, target engine family, schema scope and review link, not production secrets
+    validations:
+      required: true
+  - type: dropdown
+    id: safety
+    attributes:
+      label: Highest change safety class
+      options:
+        - Safe
+        - Online
+        - Blocking
+        - Destructive
+        - Manual review
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Independent verification evidence
+      description: Disposable shadow replay, post-apply empty diff, peer authority checks and exact-head CI links
+    validations:
+      required: true
+  - type: textarea
+    id: recovery
+    attributes:
+      label: Failure and recovery procedure
+      description: Explain partial DDL behavior, backup and re-introspection steps; do not assume rollback of committed DDL
+    validations:
+      required: true
+  - type: checkboxes
+    id: controls
+    attributes:
+      label: Required review controls
+      options:
+        - label: The plan and expected target were reviewed independently.
+          required: true
+        - label: All references are sanitized and contain no credentials or customer data.
+          required: true
+        - label: Execution will require separate, explicit operator authorization.
+          required: true
